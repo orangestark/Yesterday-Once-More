@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 114680495344679792}
   - component: {fileID: 114621962236214084}
   - component: {fileID: -3740849476006115915}
-  m_Layer: 31
+  m_Layer: 13
   m_Name: EllenDup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -544,7 +544,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.004961967, y: 1.018171}
+  m_Offset: {x: 0.0049618483, y: 0.46204293}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.42, y: 0.1}
@@ -555,7 +555,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6526546, y: 2.108757}
+  m_Size: {x: 0.0087172985, y: 0.9965012}
   m_EdgeRadius: 0
 --- !u!1 &1181578502863468
 GameObject:
