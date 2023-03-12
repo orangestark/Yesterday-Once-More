@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Gamekit2D;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class stayOnBox : MonoBehaviour
