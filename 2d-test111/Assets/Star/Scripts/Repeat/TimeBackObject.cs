@@ -16,11 +16,11 @@ public class TimeBackObject : MonoBehaviour
     private float timeRemaining;
     private bool hasBeenMoved = false;
     
-    private List<ObjectStage> TimeForwardData;
-    private bool isForwarding = false;
+    public List<ObjectStage> TimeForwardData;
+    public bool isForwarding = false;
     private bool isFreezing = false;
     private bool goHome = false;
-    private int forwardCounter = 0;
+    public int forwardCounter = 0;
 
     private Pushable _pushable;
     
@@ -142,6 +142,7 @@ public class TimeBackObject : MonoBehaviour
                 forwardCounter = 0;
             }
             ShowData(TimeForwardData[forwardCounter]);
+            Debug.Log(TimeForwardData[forwardCounter].Position);
             ++forwardCounter;
         }
     }
