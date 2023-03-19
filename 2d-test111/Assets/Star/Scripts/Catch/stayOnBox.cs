@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Gamekit2D;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class stayOnBox : MonoBehaviour
@@ -16,7 +15,7 @@ public class stayOnBox : MonoBehaviour
     private ObjectStage StageData = new ObjectStage();
     private Vector2 _lastPos;
     private bool _moved;
-    [SerializeField] private float wierdOffset = 0.01f;
+    [SerializeField] private float wierdOffset = 0f;
 
     void Start()
     {

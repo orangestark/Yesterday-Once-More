@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Gamekit2D;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 public class TimeBack : MonoBehaviour
 {   
@@ -29,6 +31,10 @@ public class TimeBack : MonoBehaviour
     private Rigidbody2D m_Rigidbody2DDup;
     private int forwardCounter = 0;
     [SerializeField] private GameObject prefab;
+    [SerializeField] private AudioSource rewindSource;
+    [SerializeField] private AudioClip rewindClip;
+    [SerializeField] private Image rewindFilter;
+    private Color filterColor = Color.black;
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +64,7 @@ public class TimeBack : MonoBehaviour
                 Destroy(playerDup);
                 isForwarding = false;
                 timeRemaining = maxTime;
+                StartRewindEffect();
                 //Debug.Log("End Recording; Start Rewinding");
             }
             else
@@ -79,6 +86,7 @@ public class TimeBack : MonoBehaviour
             Destroy(playerDup);
             isForwarding = false;
             timeRemaining = maxTime;
+            StartRewindEffect();
             //Debug.Log("Time's up; End Recording; Start Rewinding");
         }
     }
@@ -92,11 +100,14 @@ public class TimeBack : MonoBehaviour
             if (LoadStageData != null)
             {
                 ShowData(LoadStageData);
+                filterColor.a = Random.Range(0.65f, 0.8f);
+                rewindFilter.color = filterColor;
                 //Debug.Log("Rewinding "+ TimeBackData.Count);
             }
             else
             {
                 isRewinding = false;
+                EndRewindEffect();
                 //Debug.Log("End of Rewinding");
                 
                 newForwarding = true;
@@ -183,5 +194,18 @@ public class TimeBack : MonoBehaviour
         spriteRendererDup = playerDup.GetComponent<SpriteRenderer>();
         spriteRendererDup.color = Color.black;
         m_Rigidbody2DDup = playerDup.GetComponent<Rigidbody2D>();
+    }
+
+    void StartRewindEffect()
+    {
+        rewindSource.clip = rewindClip;
+        rewindSource.Play();
+        rewindFilter.enabled = true;
+    }
+    
+    void EndRewindEffect()
+    {
+        rewindSource.Stop();
+        rewindFilter.enabled = false;
     }
 }
