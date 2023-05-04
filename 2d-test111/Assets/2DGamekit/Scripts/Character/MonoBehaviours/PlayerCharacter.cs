@@ -711,6 +711,25 @@ namespace Gamekit2D
 
             StartCoroutine(DieRespawnCoroutine(true, false));
         }
+        
+        public void OnDieCheckpoint()
+        {
+            m_Animator.SetTrigger(m_HashDeadPara);
+
+            StartCoroutine(DieRespawnCheckpointCoroutine(true, true));
+        }
+        
+        IEnumerator DieRespawnCheckpointCoroutine(bool resetHealth, bool useCheckPoint)
+        {
+            PlayerInput.Instance.ReleaseControl(true);
+            yield return new WaitForSeconds(1.0f); //wait one second before respawing
+            yield return StartCoroutine(ScreenFader.FadeSceneOut(ScreenFader.FadeType.GameOver));
+            yield return new WaitForSeconds (2f);
+            Respawn(resetHealth, useCheckPoint);
+            yield return new WaitForEndOfFrame();
+            yield return StartCoroutine(ScreenFader.FadeSceneIn());
+            PlayerInput.Instance.GainControl();
+        }
 
         IEnumerator DieRespawnCoroutine(bool resetHealth, bool useCheckPoint)
         {

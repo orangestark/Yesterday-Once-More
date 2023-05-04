@@ -38,6 +38,7 @@ public class jumpPush : MonoBehaviour {
                 time = 0.0f;
             }
             // 还原到原本位置
+            /*
             if(isDown && Mathf.Abs(nowPos.y - originY)<0.02f){
                 isUp = false;
                 isDown = false;
@@ -45,6 +46,16 @@ public class jumpPush : MonoBehaviour {
                 nowPos.y = originY;
                 isCollider = false;
             }
+            */
+            // 避免影子分身的collider影响下降的停止
+            if(isDown && ((Mathf.Abs(nowPos.y - originY) < 0.02f) || (nowPos.y <= originY))){
+                isUp = false;
+                isDown = false;
+                time = 0.0f;
+                nowPos.y = originY;
+                isCollider = false;
+            }
+            
             transform.position = nowPos;
         }
     }
