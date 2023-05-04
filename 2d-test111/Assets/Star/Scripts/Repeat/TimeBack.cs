@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Gamekit2D;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -16,16 +17,16 @@ public class TimeBack : MonoBehaviour
     private Rigidbody2D m_Rigidbody2D;
     private ObjectStage LoadStageData = new ObjectStage();
     private bool CheckKeyDown = false;
-    private bool isRecording = false;
-    private bool isRewinding = false;
+    public bool isRecording = false;
+    public bool isRewinding = false;
     public float maxTime = 10f;
-    private float timeRemaining;
+    public float timeRemaining;
     
     // Necessary parameters for timeforward
     private List<ObjectStage> TimeForwardData;
     private List<ObjectStage> TempTimeForwardData;
     private GameObject playerDup;
-    private bool isForwarding = false;
+    public bool isForwarding = false;
     private bool newForwarding = false;
     private SpriteRenderer spriteRendererDup;
     private Rigidbody2D m_Rigidbody2DDup;
