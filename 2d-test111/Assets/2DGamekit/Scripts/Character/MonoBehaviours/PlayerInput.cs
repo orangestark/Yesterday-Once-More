@@ -21,6 +21,8 @@ namespace Gamekit2D
         public InputButton Jump = new InputButton(KeyCode.Space, XboxControllerButtons.A);
         public InputAxis Horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
         public InputAxis Vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
+        public InputButton Rewind1 = new InputButton(KeyCode.LeftShift, XboxControllerButtons.LeftBumper);
+        public InputButton Rewind2 = new InputButton(KeyCode.RightShift, XboxControllerButtons.RightBumper);
         [HideInInspector]
         public DataSettings dataSettings;
 
@@ -80,6 +82,8 @@ namespace Gamekit2D
             GainControl(Jump);
             GainControl(Horizontal);
             GainControl(Vertical);
+            GainControl(Rewind1);
+            GainControl(Rewind2);
         }
 
         public override void ReleaseControl(bool resetValues = true)
@@ -93,6 +97,8 @@ namespace Gamekit2D
             ReleaseControl(Jump, resetValues);
             ReleaseControl(Horizontal, resetValues);
             ReleaseControl(Vertical, resetValues);
+            ReleaseControl(Rewind1, resetValues);
+            ReleaseControl(Rewind2, resetValues);
         }
 
         public void DisableMeleeAttacking()
