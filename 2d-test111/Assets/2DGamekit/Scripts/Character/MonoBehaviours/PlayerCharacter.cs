@@ -13,6 +13,8 @@ namespace Gamekit2D
         /*******************************************/
         private GameObject _dieManager;
         private DieRoutine _dieRoutine;
+        //private GameObject _respawnObject;
+        //private Checkpoint _respawnPoint;
         /*******************************************/
         static protected PlayerCharacter s_PlayerInstance;
         static public PlayerCharacter PlayerInstance { get { return s_PlayerInstance; } }
@@ -132,8 +134,11 @@ namespace Gamekit2D
             m_CurrentBulletSpawnPoint = spriteOriginallyFacesLeft ? facingLeftBulletSpawnPoint : facingRightBulletSpawnPoint;
             
             /*******************************************/
-            _dieManager = GameObject.Find("Die Manager");
+            _dieManager = GameObject.Find("DieManager");
             _dieRoutine = _dieManager.GetComponent<DieRoutine>();
+            //_respawnObject = GameObject.Find("Checkpoint (0)");
+            //_respawnPoint = _respawnObject.GetComponent<Checkpoint>();
+            //m_LastCheckpoint = _respawnPoint;
             /*******************************************/
         }
 
@@ -724,7 +729,6 @@ namespace Gamekit2D
         public void OnDieCheckpoint()
         {
             m_Animator.SetTrigger(m_HashDeadPara);
-
             StartCoroutine(DieRespawnCheckpointCoroutine(true, true));
         }
         
