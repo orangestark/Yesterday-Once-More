@@ -10,6 +10,12 @@ namespace Gamekit2D
     [RequireComponent(typeof(Animator))]
     public class PlayerCharacter : MonoBehaviour
     {
+        /*******************************************/
+        private GameObject _dieManager;
+        private DieRoutine _dieRoutine;
+        //private GameObject _respawnObject;
+        //private Checkpoint _respawnPoint;
+        /*******************************************/
         static protected PlayerCharacter s_PlayerInstance;
         static public PlayerCharacter PlayerInstance { get { return s_PlayerInstance; } }
 
@@ -126,6 +132,14 @@ namespace Gamekit2D
             m_InventoryController = GetComponent<InventoryController>();
 
             m_CurrentBulletSpawnPoint = spriteOriginallyFacesLeft ? facingLeftBulletSpawnPoint : facingRightBulletSpawnPoint;
+            
+            /*******************************************/
+            _dieManager = GameObject.Find("DieManager");
+            _dieRoutine = _dieManager.GetComponent<DieRoutine>();
+            //_respawnObject = GameObject.Find("Checkpoint (0)");
+            //_respawnPoint = _respawnObject.GetComponent<Checkpoint>();
+            //m_LastCheckpoint = _respawnPoint;
+            /*******************************************/
         }
 
         void Start()
@@ -715,16 +729,17 @@ namespace Gamekit2D
         public void OnDieCheckpoint()
         {
             m_Animator.SetTrigger(m_HashDeadPara);
-
             StartCoroutine(DieRespawnCheckpointCoroutine(true, true));
         }
         
         IEnumerator DieRespawnCheckpointCoroutine(bool resetHealth, bool useCheckPoint)
         {
             PlayerInput.Instance.ReleaseControl(true);
+            _dieRoutine.StartDieRoutine();
             yield return new WaitForSeconds(1.0f); //wait one second before respawing
             yield return StartCoroutine(ScreenFader.FadeSceneOut(ScreenFader.FadeType.GameOver));
             yield return new WaitForSeconds (2f);
+            _dieRoutine.StartRespawnRoutine();
             Respawn(resetHealth, useCheckPoint);
             yield return new WaitForEndOfFrame();
             yield return StartCoroutine(ScreenFader.FadeSceneIn());

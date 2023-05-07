@@ -64,6 +64,9 @@ namespace Gamekit2D
             Jump.Get(fixedUpdateHappened, inputType);
             Horizontal.Get(inputType);
             Vertical.Get(inputType);
+            
+            Rewind1.Get(fixedUpdateHappened, inputType);
+            Rewind2.Get(fixedUpdateHappened, inputType);
 
             if (Input.GetKeyDown(KeyCode.F12))
             {

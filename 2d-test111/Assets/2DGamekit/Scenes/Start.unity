@@ -2176,10 +2176,10 @@ MonoBehaviour:
 
     Fireboy & Watergirl</b>
 
-    
 
-    Members: Star
-    Chen, Fay Li, Eric Shen
+
+    Members: Star Chen,
+    Fay Li, Eric Shen
 
 
 
@@ -27408,7 +27408,7 @@ PrefabInstance:
     - target: {fileID: 114634906093864604, guid: b38e9ca90e4033c4bb4554a41a283698,
         type: 3}
       propertyPath: newSceneName
-      value: finalScene
+      value: finalScene 1
       objectReference: {fileID: 0}
     - target: {fileID: 114634906093864604, guid: b38e9ca90e4033c4bb4554a41a283698,
         type: 3}
@@ -28142,6 +28142,14 @@ MonoBehaviour:
     positive: 119
     negative: 115
     controllerAxis: 2
+  Rewind1:
+    key: 304
+    controllerButton: 9
+    m_Enabled: 1
+  Rewind2:
+    key: 303
+    controllerButton: 10
+    m_Enabled: 1
   dataSettings:
     dataTag: ff2aa746-fa8c-45ba-9e73-61d56b65eac5
     persistenceType: 3
