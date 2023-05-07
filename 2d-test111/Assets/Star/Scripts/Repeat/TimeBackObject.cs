@@ -26,7 +26,10 @@ public class TimeBackObject : MonoBehaviour
     private Pushable _pushable;
 
     private ObjectStage _initStage = new ObjectStage();
-    
+
+    private GameObject _player;
+    private TimeBack _timeBack;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,17 +46,22 @@ public class TimeBackObject : MonoBehaviour
         _initStage.Sprite = spriteRenderer.sprite;
         _initStage.IsRight = !(spriteRenderer.flipX);
         _initStage.Velocity = m_Rigidbody2D.velocity;
+        
+        _player = GameObject.Find("Ellen");
+        _timeBack = _player.GetComponent<TimeBack>();
     }
 
     // Update is called once per frame
     void Update()
     {
         //Check whether player has started or ended the timeback
-        CheckKeyDown = PlayerInput.Instance.Rewind1.Down || PlayerInput.Instance.Rewind2.Down;
-        if (!(isRewinding) && CheckKeyDown)
+        //CheckKeyDown = PlayerInput.Instance.Rewind1.Down || PlayerInput.Instance.Rewind2.Down;
+        CheckKeyDown = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
+        if (!(isRewinding) && CheckKeyDown && !DieRoutine.isDead)
         {
             if (isFreezing)
             {
+                Debug.Log("Dang~~~~~~~~~~~~");
                 goHome = true;
                 isFreezing = false;
                 isForwarding = false;
@@ -81,7 +89,7 @@ public class TimeBackObject : MonoBehaviour
         }
         
         //If timeback enabled, update time
-        if ((isRecording || isFreezing) && (timeRemaining > 0))
+        if ((isRecording || isFreezing) && (timeRemaining > 0) && !DieRoutine.isDead)
         {
             timeRemaining -= Time.deltaTime;
         }
@@ -153,7 +161,7 @@ public class TimeBackObject : MonoBehaviour
                 forwardCounter = 0;
             }
             ShowData(TimeForwardData[forwardCounter]);
-            Debug.Log(TimeForwardData[forwardCounter].Position);
+            //Debug.Log(TimeForwardData[forwardCounter].Position);
             ++forwardCounter;
         }
     }

@@ -57,8 +57,9 @@ public class TimeBack : MonoBehaviour
     void Update()
     {
         //Check whether player has started or ended the timeback
-        CheckKeyDown = PlayerInput.Instance.Rewind1.Down || PlayerInput.Instance.Rewind2.Down;
-        if (!(isRewinding) && CheckKeyDown)
+        //CheckKeyDown = PlayerInput.Instance.Rewind1.Down || PlayerInput.Instance.Rewind2.Down;
+        CheckKeyDown = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
+        if (!(isRewinding) && CheckKeyDown && !DieRoutine.isDead)
         {
             if (isRecording)
             {
@@ -84,7 +85,7 @@ public class TimeBack : MonoBehaviour
         }
         
         //If timeback enabled, update time
-        if (isRecording && (timeRemaining > 0))
+        if (isRecording && (timeRemaining > 0) && !DieRoutine.isDead)
         {
             timeRemaining -= Time.deltaTime;
         }
