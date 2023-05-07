@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Gamekit2D;
 using TMPro;
 using Unity.VisualScripting;
@@ -56,18 +57,23 @@ public class TimeBack : MonoBehaviour
     void Update()
     {
         //Check whether player has started or ended the timeback
-        CheckKeyDown = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
+        CheckKeyDown = PlayerInput.Instance.Rewind1.Down || PlayerInput.Instance.Rewind2.Down;
         if (!(isRewinding) && CheckKeyDown)
         {
             if (isRecording)
             {
-                isRecording = false;
-                isRewinding = true;
-                Destroy(playerDup);
-                isForwarding = false;
-                StartRewindEffect();
-                timeRemaining = maxTime;
+                if (TempTimeForwardData.Any())
+                {
+                    isRecording = false;
+                    isRewinding = true;
+                    if (playerDup)
+                        Destroy(playerDup);
+                    isForwarding = false;
+                    StartRewindEffect();
+                    timeRemaining = maxTime;
+                }
                 
+
                 //Debug.Log("End Recording; Start Rewinding");
             }
             else
@@ -86,7 +92,8 @@ public class TimeBack : MonoBehaviour
         {
             isRecording = false;
             isRewinding = true;
-            Destroy(playerDup);
+            if (playerDup)
+                Destroy(playerDup);
             isForwarding = false;
             StartRewindEffect();
             timeRemaining = maxTime;
@@ -212,5 +219,24 @@ public class TimeBack : MonoBehaviour
     {
         //rewindSource.Stop();
         rewindFilter.enabled = false;
+    }
+    
+    public void Reset()
+    {
+        isRecording = false;
+        isRewinding = false;
+        timeRemaining = maxTime;
+        newForwarding = false;
+        TimeBackData.Clear();
+        TempTimeForwardData.Clear();
+    }
+    
+    public void Restart()
+    {
+        if (playerDup)
+            Destroy(playerDup);
+        isForwarding = false;
+        TimeForwardData.Clear();
+        forwardCounter = 0;
     }
 }

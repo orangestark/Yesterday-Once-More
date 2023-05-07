@@ -10,6 +10,10 @@ namespace Gamekit2D
     [RequireComponent(typeof(Animator))]
     public class PlayerCharacter : MonoBehaviour
     {
+        /*******************************************/
+        private GameObject _dieManager;
+        private DieRoutine _dieRoutine;
+        /*******************************************/
         static protected PlayerCharacter s_PlayerInstance;
         static public PlayerCharacter PlayerInstance { get { return s_PlayerInstance; } }
 
@@ -126,6 +130,11 @@ namespace Gamekit2D
             m_InventoryController = GetComponent<InventoryController>();
 
             m_CurrentBulletSpawnPoint = spriteOriginallyFacesLeft ? facingLeftBulletSpawnPoint : facingRightBulletSpawnPoint;
+            
+            /*******************************************/
+            _dieManager = GameObject.Find("Die Manager");
+            _dieRoutine = _dieManager.GetComponent<DieRoutine>();
+            /*******************************************/
         }
 
         void Start()
@@ -722,9 +731,11 @@ namespace Gamekit2D
         IEnumerator DieRespawnCheckpointCoroutine(bool resetHealth, bool useCheckPoint)
         {
             PlayerInput.Instance.ReleaseControl(true);
+            _dieRoutine.StartDieRoutine();
             yield return new WaitForSeconds(1.0f); //wait one second before respawing
             yield return StartCoroutine(ScreenFader.FadeSceneOut(ScreenFader.FadeType.GameOver));
             yield return new WaitForSeconds (2f);
+            _dieRoutine.StartRespawnRoutine();
             Respawn(resetHealth, useCheckPoint);
             yield return new WaitForEndOfFrame();
             yield return StartCoroutine(ScreenFader.FadeSceneIn());

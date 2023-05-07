@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,11 +16,14 @@ public class ShowStatus : MonoBehaviour
     private bool _start;
     private float _localtime;
     [SerializeField] float max_time = 0.3f;
+
+    private string _original;
     // Start is called before the first frame update
     void Start()
     {
         _start = false;
         _localtime = max_time;
+        _original = text.text;
     }
 
     // Update is called once per frame
@@ -31,7 +35,7 @@ public class ShowStatus : MonoBehaviour
         timeRemaining = timeback.timeRemaining;
         if (isRecording)
         {
-            text.text = string.Format("Recording...\nRemaining time:<color=\"blue\"><size=50>{0,2:0}</size></color>s", timeRemaining);
+            text.text = string.Format("<color=\"black\">Shadow</color> Recording\nRemaining time:<color=\"blue\"><size=50>{0,2:0}</size></color>s", timeRemaining);
         } 
         else if (isRewinding)
         {
@@ -71,7 +75,12 @@ public class ShowStatus : MonoBehaviour
         } 
         else if (isForwarding)
         {
-            text.text = string.Format("<color=\"black\">Shadow</color> Activated");
+            text.text = string.Format("<color=\"black\">Shadow</color> <color=#55F1FF>Activated</color>");
         }
+    }
+
+    public void Restart()
+    {
+        text.text = _original;
     }
 }

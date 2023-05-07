@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Gamekit2D;
 using UnityEngine;
 
 public class TimeBackLiftable : MonoBehaviour
@@ -21,6 +23,8 @@ public class TimeBackLiftable : MonoBehaviour
     private bool isFreezing = false;
     private bool goHome = false;
     private int forwardCounter = 0;
+    
+    private ObjectStage _initStage = new ObjectStage();
 
     //private Pushable _pushable;
     
@@ -36,13 +40,18 @@ public class TimeBackLiftable : MonoBehaviour
         TimeForwardData = new List<ObjectStage>();
 
         //_pushable = GetComponent<Pushable>();
+        
+        _initStage.Position = transform.position;
+        //_initStage.Sprite = spriteRenderer.sprite;
+        //_initStage.IsRight = !(spriteRenderer.flipX);
+        //_initStage.Velocity = m_Rigidbody2D.velocity;
     }
 
     // Update is called once per frame
     void Update()
     {
         //Check whether player has started or ended the timeback
-        CheckKeyDown = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
+        CheckKeyDown = PlayerInput.Instance.Rewind1.Down || PlayerInput.Instance.Rewind2.Down;
         if (!(isRewinding) && CheckKeyDown)
         {
             if (isFreezing)
@@ -58,10 +67,13 @@ public class TimeBackLiftable : MonoBehaviour
             }
             else if (isRecording)
             {
-                isRecording = false;
-                isRewinding = true;
-                timeRemaining = maxTime;
-                Debug.Log("End Recording; Start Rewinding");
+                if (TimeForwardData.Any())
+                {
+                    isRecording = false;
+                    isRewinding = true;
+                    timeRemaining = maxTime;
+                    Debug.Log("End Recording; Start Rewinding");
+                }
             }
             else
             {
@@ -191,4 +203,25 @@ public class TimeBackLiftable : MonoBehaviour
         //m_Rigidbody2D.velocity = stage.Velocity;
     }
     
+    public void Reset()
+    {
+        isRecording = false;
+        isRewinding = false;
+        timeRemaining = maxTime;
+        TimeBackData.Clear();
+        hasBeenMoved = false;
+        goHome = false;
+        isFreezing = false;
+    }
+    
+    public void Restart()
+    {
+        isForwarding = false;
+        TimeForwardData.Clear();
+        forwardCounter = 0;
+        isFreezing = false;
+        hasBeenMoved = false;
+        goHome = false;
+        ShowData(_initStage);
+    }
 }
