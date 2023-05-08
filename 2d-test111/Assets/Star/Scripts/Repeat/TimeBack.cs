@@ -38,6 +38,8 @@ public class TimeBack : MonoBehaviour
     [SerializeField] private Image rewindFilter;
     private Color filterColor = Color.black;
     [SerializeField] private RewindSound rewindSound;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip audioClip;
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +61,7 @@ public class TimeBack : MonoBehaviour
         //Check whether player has started or ended the timeback
         //CheckKeyDown = PlayerInput.Instance.Rewind1.Down || PlayerInput.Instance.Rewind2.Down;
         CheckKeyDown = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
-        if (!(isRewinding) && CheckKeyDown && !DieRoutine.isDead)
+        if (!(isRewinding) && CheckKeyDown && !(DieRoutine.isDead || DieRoutine.isLocked))
         {
             if (isRecording)
             {
@@ -80,12 +82,13 @@ public class TimeBack : MonoBehaviour
             else
             {
                 isRecording = true;
+                audioSource.PlayOneShot(audioClip, 1f);
                 //Debug.Log("Start Recording");
             }
         }
         
         //If timeback enabled, update time
-        if (isRecording && (timeRemaining > 0) && !DieRoutine.isDead)
+        if (isRecording && (timeRemaining > 0) && !(DieRoutine.isDead || DieRoutine.isLocked))
         {
             timeRemaining -= Time.deltaTime;
         }

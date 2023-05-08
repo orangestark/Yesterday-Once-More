@@ -6,6 +6,7 @@ using UnityEngine;
 public class DieRoutine : MonoBehaviour
 {
     public static bool isDead = false;
+    public static bool isLocked = false;
     
     [SerializeField] private TimeBack timeBack;
     [SerializeField] private TimeBackObject[] timeBackObjects;
@@ -40,5 +41,35 @@ public class DieRoutine : MonoBehaviour
         }
         showStatus.Restart();
         isDead = false;
+    }
+    
+    public void StartLockRoutine()
+    {
+        isLocked = true;
+        timeBack.Reset();
+        foreach (var timeBackObject in timeBackObjects)
+        {
+            timeBackObject.Reset();
+        }
+        foreach (var timeBackLiftable in timeBackLiftables)
+        {
+            timeBackLiftable.Reset();
+        }
+        showStatus.Pause();
+    }
+    
+    public void StartUnlockRoutine()
+    {
+        timeBack.Restart();
+        foreach (var timeBackObject in timeBackObjects)
+        {
+            timeBackObject.Restart();
+        }
+        foreach (var timeBackLiftable in timeBackLiftables)
+        {
+            timeBackLiftable.Restart();
+        }
+        showStatus.Restart();
+        isLocked = false;
     }
 }

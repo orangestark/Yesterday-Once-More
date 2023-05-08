@@ -10,8 +10,8 @@ public class CameraEffectTrigger : MonoBehaviour
     private bool _never = true;
     [SerializeField] private CameraEffect cameraEffect;
     [SerializeField] private GameObject target;
-    [SerializeField] private float FOV = 80f;
-    [SerializeField] private float duration = 1f;
+    [SerializeField] private float FOV = 60f;
+    [SerializeField] private float duration = 2f;
 
     private void OnTriggerEnter2D(Collider2D col)
     {

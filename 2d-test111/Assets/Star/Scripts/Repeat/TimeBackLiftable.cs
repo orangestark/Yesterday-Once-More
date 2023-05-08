@@ -53,7 +53,7 @@ public class TimeBackLiftable : MonoBehaviour
         //Check whether player has started or ended the timeback
         //CheckKeyDown = PlayerInput.Instance.Rewind1.Down || PlayerInput.Instance.Rewind2.Down;
         CheckKeyDown = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
-        if (!(isRewinding) && CheckKeyDown && !DieRoutine.isDead)
+        if (!(isRewinding) && CheckKeyDown && !(DieRoutine.isDead || DieRoutine.isLocked))
         {
             if (isFreezing)
             {
@@ -84,7 +84,7 @@ public class TimeBackLiftable : MonoBehaviour
         }
         
         //If timeback enabled, update time
-        if ((isRecording || isFreezing) && (timeRemaining > 0) && !DieRoutine.isDead)
+        if ((isRecording || isFreezing) && (timeRemaining > 0) && !(DieRoutine.isDead || DieRoutine.isLocked))
         {
             timeRemaining -= Time.deltaTime;
         }

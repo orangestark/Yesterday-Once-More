@@ -7,6 +7,7 @@ namespace Gamekit2D
     [RequireComponent(typeof(Collider2D))]
     public class TransitionPoint : MonoBehaviour
     {
+        private static bool teleported;
         public enum TransitionType
         {
             DifferentZone, DifferentNonGameplayScene, SameScene,
@@ -57,8 +58,11 @@ namespace Gamekit2D
                 if (ScreenFader.IsFading || SceneController.Transitioning)
                     return;
 
-                if (transitionWhen == TransitionWhen.OnTriggerEnter)
-                    TransitionInternal ();
+                if ((transitionWhen == TransitionWhen.OnTriggerEnter) && !teleported)
+                {
+                    teleported = true;
+                    TransitionInternal();
+                }
             }
         }
 
@@ -67,6 +71,7 @@ namespace Gamekit2D
             if (other.gameObject == transitioningGameObject)
             {
                 m_TransitioningGameObjectPresent = false;
+                teleported = false;
             }
         }
 
