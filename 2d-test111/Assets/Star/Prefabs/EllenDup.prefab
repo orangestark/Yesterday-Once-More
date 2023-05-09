@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 114680495344679792}
   - component: {fileID: 114621962236214084}
   - component: {fileID: -3740849476006115915}
-  m_Layer: 13
+  m_Layer: 20
   m_Name: EllenDup
   m_TagString: Untagged
   m_Icon: {fileID: 0}

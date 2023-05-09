@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using Gamekit2D;
 using UnityEngine;
 
-public class jumpPush : MonoBehaviour {
+public class jumpPush : MonoBehaviour
+{
+    private static bool pause = false;
+    
     public float addHeight = 0.5f; // 一次碰撞往上的高度
     public float upTime = 0.2f; // 往上的时间
     public GameObject platform;
@@ -19,11 +22,11 @@ public class jumpPush : MonoBehaviour {
     void Start()
     {
         originY = platform.transform.position.y;
-        print("origin height: "+originY);
+        //print("origin height: "+originY);
     }
 
     private void Update() {
-        if (isCollider) {
+        if (!pause && isCollider) {
             var nowPos = transform.position;
             time += Time.deltaTime;
             if (isUp) {
@@ -78,5 +81,15 @@ public class jumpPush : MonoBehaviour {
         isCollider = true;
         isUp = true;
         print("collided");
+    }
+
+    public static void PauseLifting()
+    {
+        pause = true;
+    }
+    
+    public static void PlayLifting()
+    {
+        pause = false;
     }
 }

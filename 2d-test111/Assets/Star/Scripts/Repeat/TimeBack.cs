@@ -9,7 +9,9 @@ using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
 
 public class TimeBack : MonoBehaviour
-{   
+{
+    private static bool pause;
+    
     // Necessary parameters for timeback
     private Stack<ObjectStage> TimeBackData;
     private SpriteRenderer spriteRenderer;
@@ -90,9 +92,12 @@ public class TimeBack : MonoBehaviour
         //If timeback enabled, update time
         if (isRecording && (timeRemaining > 0) && !(DieRoutine.isDead || DieRoutine.isLocked))
         {
-            timeRemaining -= Time.deltaTime;
+            if (!pause)
+            {
+                timeRemaining -= Time.deltaTime;
+            }
         }
-        else if (isRecording)
+        else if (isRecording && !(DieRoutine.isDead || DieRoutine.isLocked))
         {
             isRecording = false;
             isRewinding = true;
@@ -108,54 +113,58 @@ public class TimeBack : MonoBehaviour
     
     void FixedUpdate()
     {
-        //The main function to record player's data and perform timeback
-        if (isRewinding)
+        if (!pause)
         {
-            LoadStageData = LoadData();
-            if (LoadStageData != null)
+            //The main function to record player's data and perform timeback
+            if (isRewinding)
             {
-                ShowData(LoadStageData);
-                filterColor.a = Random.Range(0.65f, 0.8f);
-                rewindFilter.color = filterColor;
-                //Debug.Log("Rewinding "+ TimeBackData.Count);
-            }
-            else
-            {
-                isRewinding = false;
-                EndRewindEffect();
-                //Debug.Log("End of Rewinding");
-                
-                newForwarding = true;
-                
-                animator.enabled = true;
-                m_Rigidbody2D.simulated = true;
-                
-            }
-        }
-        else if (isRecording)
-        {
-            SaveData();
-        }
+                LoadStageData = LoadData();
+                if (LoadStageData != null)
+                {
+                    ShowData(LoadStageData);
+                    filterColor.a = Random.Range(0.65f, 0.8f);
+                    rewindFilter.color = filterColor;
+                    //Debug.Log("Rewinding "+ TimeBackData.Count);
+                }
+                else
+                {
+                    isRewinding = false;
+                    EndRewindEffect();
+                    //Debug.Log("End of Rewinding");
 
-        if (newForwarding)
-        {
-            TimeForwardData = new List<ObjectStage>(TempTimeForwardData);
-            TempTimeForwardData.Clear();
-            UpdateDuplicatePlayer(TimeForwardData[0].Position);
-            //Debug.Log("Player Duplicated");
-            forwardCounter = 0;
-            isForwarding = true;
-            newForwarding = false;
-        }
-        
-        if (isForwarding)
-        {
-            if (forwardCounter >= TimeForwardData.Count)
-            {
-                forwardCounter = 0;
+                    newForwarding = true;
+
+                    animator.enabled = true;
+                    m_Rigidbody2D.simulated = true;
+
+                }
             }
-            ShowForwardData(TimeForwardData[forwardCounter]);
-            ++forwardCounter;
+            else if (isRecording)
+            {
+                SaveData();
+            }
+
+            if (newForwarding)
+            {
+                TimeForwardData = new List<ObjectStage>(TempTimeForwardData);
+                TempTimeForwardData.Clear();
+                UpdateDuplicatePlayer(TimeForwardData[0].Position);
+                //Debug.Log("Player Duplicated");
+                forwardCounter = 0;
+                isForwarding = true;
+                newForwarding = false;
+            }
+
+            if (isForwarding)
+            {
+                if (forwardCounter >= TimeForwardData.Count)
+                {
+                    forwardCounter = 0;
+                }
+
+                ShowForwardData(TimeForwardData[forwardCounter]);
+                ++forwardCounter;
+            }
         }
     }
     
@@ -242,5 +251,19 @@ public class TimeBack : MonoBehaviour
         isForwarding = false;
         TimeForwardData.Clear();
         forwardCounter = 0;
+    }
+
+    public static void PauseRewind()
+    {
+        pause = true;
+        TimeBackObject.PauseRewind();
+        TimeBackLiftable.PauseRewind();
+    }
+
+    public static void PlayRewind()
+    {
+        pause = false;
+        TimeBackObject.PlayRewind();
+        TimeBackLiftable.PlayRewind();
     }
 }

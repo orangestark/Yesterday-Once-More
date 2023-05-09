@@ -40,7 +40,7 @@ public class ShowStatus : MonoBehaviour
             if (isRecording)
             {
                 text.text = string.Format(
-                    "<color=\"black\">Shadow</color> Recording\nRemaining time:<color=\"blue\"><size=50>{0,2:0}</size></color>s",
+                    "<color=\"black\">Shadow</color> Recording\nRemaining time:<color=\"yellow\"><size=50>{0,2:0}</size></color>s",
                     timeRemaining);
             }
             else if (isRewinding)
@@ -81,7 +81,7 @@ public class ShowStatus : MonoBehaviour
             }
             else if (isForwarding)
             {
-                text.text = string.Format("<color=\"black\">Shadow</color> <color=#55F1FF>Activated</color>");
+                text.text = string.Format("<color=\"black\">Shadow</color> <color=#FFFFB5>Activated</color>");
             }
         }
     }

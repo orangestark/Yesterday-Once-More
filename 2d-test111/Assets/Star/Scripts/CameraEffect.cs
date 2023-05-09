@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using Gamekit2D;
 using TMPro;
@@ -30,10 +31,28 @@ public class CameraEffect : MonoBehaviour
     [SerializeField] private TimeBack timeBack;
     [SerializeField] private GameObject canvas;
     [SerializeField] private TMP_Text text;
+    [SerializeField] private GameObject player;
+    private Animator animator;
+    private Rigidbody2D m_Rigidbody2D;
+    
+    [SerializeField] private GameObject[] timeBackObjects;
+    [SerializeField] private GameObject[] timeBackLiftables;
+    private List<Rigidbody2D> objectRigidbody2Ds = new List<Rigidbody2D>();
+    private List<Pushable> objectPushables = new List<Pushable>();
+    private List<bool> objectRigidbody2DBools = new List<bool>();
+    private List<bool> objectPushableBools = new List<bool>();
+
     private void Start()
     {
         _dieManager = GameObject.Find("DieManager");
         _dieRoutine = _dieManager.GetComponent<DieRoutine>();
+        animator = player.GetComponent<Animator>();
+        m_Rigidbody2D = player.GetComponent<Rigidbody2D>();
+        foreach (var timeBackObject in timeBackObjects)
+        {
+            objectRigidbody2Ds.Add(timeBackObject.GetComponent<Rigidbody2D>());
+            objectPushables.Add(timeBackObject.GetComponent<Pushable>());
+        }
     }
 
     private void Update()
@@ -60,6 +79,19 @@ public class CameraEffect : MonoBehaviour
                     cam.Follow = _follow;
                     PlayerInput.Instance.GainControl();
                     _dieRoutine.StartUnlockRoutine();
+                    animator.enabled = true;
+                    m_Rigidbody2D.simulated = true;
+                    jumpPush.PlayLifting();
+                    foreach (var objectPushable in objectPushables)
+                    {
+                        objectPushable.enabled = objectPushableBools[0];
+                        objectPushableBools.RemoveAt(0);
+                    }
+                    foreach (var objectRigidbody2D in objectRigidbody2Ds)
+                    {
+                        objectRigidbody2D.simulated = objectRigidbody2DBools[0];
+                        objectRigidbody2DBools.RemoveAt(0);
+                    }
                     StartSpecialEffect();
                 }
             }
@@ -74,6 +106,19 @@ public class CameraEffect : MonoBehaviour
                 cam.Follow = null; 
                 PlayerInput.Instance.ReleaseControl(true);
                 _dieRoutine.StartLockRoutine();
+                animator.enabled = false;
+                m_Rigidbody2D.simulated = false;
+                jumpPush.PauseLifting();
+                foreach (var objectPushable in objectPushables)
+                {
+                    objectPushableBools.Add(objectPushable.enabled);
+                    objectPushable.enabled = false;
+                }
+                foreach (var objectRigidbody2D in objectRigidbody2Ds)
+                {
+                    objectRigidbody2DBools.Add(objectRigidbody2D.simulated);
+                    objectRigidbody2D.simulated = false;
+                }
                 StartCoroutine(LerpFromTo(_original, target.transform.position, duration, 1));
             }
         } 
@@ -132,6 +177,19 @@ public class CameraEffect : MonoBehaviour
             _isWorking = false;
             PlayerInput.Instance.GainControl();
             _dieRoutine.StartUnlockRoutine();
+            animator.enabled = true;
+            m_Rigidbody2D.simulated = true;
+            jumpPush.PlayLifting();
+            foreach (var objectPushable in objectPushables)
+            {
+                objectPushable.enabled = objectPushableBools[0];
+                objectPushableBools.RemoveAt(0);
+            }
+            foreach (var objectRigidbody2D in objectRigidbody2Ds)
+            {
+                objectRigidbody2D.simulated = objectRigidbody2DBools[0];
+                objectRigidbody2DBools.RemoveAt(0);
+            }
         }
     }
     
@@ -148,6 +206,19 @@ public class CameraEffect : MonoBehaviour
         _isAvailable = true;
         PlayerInput.Instance.ReleaseControl(true);
         _dieRoutine.StartLockRoutine();
+        animator.enabled = false;
+        m_Rigidbody2D.simulated = false;
+        jumpPush.PauseLifting();
+        foreach (var objectPushable in objectPushables)
+        {
+            objectPushableBools.Add(objectPushable.enabled);
+            objectPushable.enabled = false;
+        }
+        foreach (var objectRigidbody2D in objectRigidbody2Ds)
+        {
+            objectRigidbody2DBools.Add(objectRigidbody2D.simulated);
+            objectRigidbody2D.simulated = false;
+        }
     }
 
     public void StartSpecialEffect()
