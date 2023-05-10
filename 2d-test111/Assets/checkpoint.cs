@@ -31,7 +31,7 @@ public class checkpoint : MonoBehaviour
             DeactivateGameObjects();
         } else if (checkcount ==1)
         {
-            textComponent.text = "One kiosk to go!\n \nTry going through the portal\n \nIf your box is still looping, Press SHIFT twice";
+            textComponent.text = "You have already pushed the box to one kiosk, try pushing it to the other\n \nTry going through the portal\n \nIf your box is still looping, Press SHIFT twice";
         }
     }
     void OnTriggerEnter2D(Collider2D other)

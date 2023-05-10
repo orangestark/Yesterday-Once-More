@@ -9,7 +9,7 @@ public class playerrewinddetecter : MonoBehaviour
     [SerializeField] GameObject[] gameObjectsToActivate;
     [SerializeField] GameObject[] gameObjectsToDeactivate;
     public TMP_Text textComponent;
-
+    
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +22,7 @@ public class playerrewinddetecter : MonoBehaviour
     {
         //textComponent = GetComponent<TMP_Text>();
         TimeBacktutorial myScript = gameObject.GetComponent<TimeBacktutorial>();
+        myScript.enabled = true;
         if (myScript.loopcount > 0)
         {
             

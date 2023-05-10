@@ -12,6 +12,7 @@ public class movementdetecter : MonoBehaviour
     private bool jumped = false;
     public GameObject[] gameObjectsToActivate;
     public GameObject[] gameObjectsToDeactivate;
+    [SerializeField] GameObject player;
     // Start is called before the first frame update
     void Start()
     {   
@@ -31,7 +32,8 @@ public class movementdetecter : MonoBehaviour
         {
             jumped = true;
         }
-
+        TimeBacktutorial myScript = player.GetComponent<TimeBacktutorial>();
+        myScript.enabled = false;
         if (lefted && righted &&  jumped)
         {
             ActivateGameObjects();
