@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PushDetecter : MonoBehaviour
+public class PushDetecter1 : MonoBehaviour
 {
+    public GameObject player;
     public GameObject designatedObject;
     public GameObject[] gameObjectsToActivate;
     public GameObject[] gameObjectsToDeactivate;
@@ -21,10 +22,12 @@ public class PushDetecter : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject == designatedObject)
+        TimeBacktutorial myScript = gameObject.GetComponent<TimeBacktutorial>();
+        if (other.gameObject == designatedObject && myScript.rewindcount == 1)
         {
             ActivateGameObjects();
            DeactivateGameObjects();
+           myScript.rewindcount = 0;
         }
     }
  

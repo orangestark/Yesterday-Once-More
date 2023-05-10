@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class PushDetecter : MonoBehaviour
+public class playerrewinddetecter : MonoBehaviour
 {
-    public GameObject designatedObject;
-    public GameObject[] gameObjectsToActivate;
-    public GameObject[] gameObjectsToDeactivate;
+    [SerializeField] GameObject gameObject;
+    [SerializeField] GameObject[] gameObjectsToActivate;
+    [SerializeField] GameObject[] gameObjectsToDeactivate;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,18 +16,15 @@ public class PushDetecter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject == designatedObject)
+        TimeBacktutorial myScript = gameObject.GetComponent<TimeBacktutorial>();
+        if (myScript.loopcount > 0 && Input.GetKeyDown(KeyCode.Return))
         {
             ActivateGameObjects();
-           DeactivateGameObjects();
+            DeactivateGameObjects();
+            
         }
     }
- 
-    public void ActivateGameObjects()
+    void ActivateGameObjects()
     {
         foreach (GameObject go in gameObjectsToActivate)
         {
@@ -36,7 +32,7 @@ public class PushDetecter : MonoBehaviour
         }
     }
 
-    public void DeactivateGameObjects()
+    void DeactivateGameObjects()
     {
         foreach (GameObject go in gameObjectsToDeactivate)
         {
@@ -44,3 +40,4 @@ public class PushDetecter : MonoBehaviour
         }
     }
 }
+
