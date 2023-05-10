@@ -46,6 +46,7 @@ public class DieRoutine : MonoBehaviour
     public void StartLockRoutine()
     {
         isLocked = true;
+        /*
         timeBack.Reset();
         foreach (var timeBackObject in timeBackObjects)
         {
@@ -54,12 +55,14 @@ public class DieRoutine : MonoBehaviour
         foreach (var timeBackLiftable in timeBackLiftables)
         {
             timeBackLiftable.Reset();
-        }
+        }*/
+        TimeBack.PauseRewind();
         showStatus.Pause();
     }
     
     public void StartUnlockRoutine()
     {
+        /*
         timeBack.Restart();
         foreach (var timeBackObject in timeBackObjects)
         {
@@ -68,7 +71,8 @@ public class DieRoutine : MonoBehaviour
         foreach (var timeBackLiftable in timeBackLiftables)
         {
             timeBackLiftable.Restart();
-        }
+        }*/
+        TimeBack.PlayRewind();
         showStatus.Restart();
         isLocked = false;
     }

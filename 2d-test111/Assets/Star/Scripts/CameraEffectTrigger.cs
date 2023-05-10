@@ -15,7 +15,7 @@ public class CameraEffectTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (_never)
+        if (_never && !DieRoutine.isDead)
         {
             PlayerCharacter c = col.GetComponent<PlayerCharacter>();
             if (c != null)

@@ -122,18 +122,28 @@ namespace Gamekit2D
                     if(!caughtObject.inContact)
                     {
                         Collider2D caughtObjectCollider = m_CaughtObjects[i].collider;
-
-                        //check if we are aligned with the moving paltform, otherwise the yDiff test under would be true even if far from the platform as long as we are on the same y level...
-                        bool verticalAlignement = (caughtObjectCollider.bounds.max.x > m_Collider.bounds.min.x) && (caughtObjectCollider.bounds.min.x < m_Collider.bounds.max.x);
-                        if (verticalAlignement)
+    
+                        /**********************************************/
+                        if(caughtObjectCollider != null)
                         {
-                            float yDiff = m_CaughtObjects[i].collider.bounds.min.y - m_Collider.bounds.max.y;
-
-                            if (yDiff > 0 && yDiff < 0.05f)
+                            //check if we are aligned with the moving paltform, otherwise the yDiff test under would be true even if far from the platform as long as we are on the same y level...
+                            bool verticalAlignement = (caughtObjectCollider.bounds.max.x > m_Collider.bounds.min.x) &&
+                                                      (caughtObjectCollider.bounds.min.x < m_Collider.bounds.max.x);
+                            if (verticalAlignement)
                             {
-                                caughtObject.inContact = true;
-                                caughtObject.checkedThisFrame = true;
+                                float yDiff = m_CaughtObjects[i].collider.bounds.min.y - m_Collider.bounds.max.y;
+
+                                if (yDiff > 0 && yDiff < 0.05f)
+                                {
+                                    caughtObject.inContact = true;
+                                    caughtObject.checkedThisFrame = true;
+                                }
                             }
+                        }
+                        else
+                        {
+                            /**********************************************/
+                            caughtObject.checkedThisFrame = true;
                         }
                     }
                 }

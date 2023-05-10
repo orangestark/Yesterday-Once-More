@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class TimeBackLiftable : MonoBehaviour
 {
+    private static bool pause;
+    
     private Stack<ObjectStage> TimeBackData;
     //private SpriteRenderer spriteRenderer;
     //private Rigidbody2D m_Rigidbody2D;
@@ -86,16 +88,19 @@ public class TimeBackLiftable : MonoBehaviour
         //If timeback enabled, update time
         if ((isRecording || isFreezing) && (timeRemaining > 0) && !(DieRoutine.isDead || DieRoutine.isLocked))
         {
-            timeRemaining -= Time.deltaTime;
+            if (!pause)
+            {
+                timeRemaining -= Time.deltaTime;
+            }
         }
-        else if (isFreezing)
+        else if (isFreezing && !(DieRoutine.isDead || DieRoutine.isLocked))
         {
             goHome = true;
             isFreezing = false;
             isForwarding = false;
             timeRemaining = maxTime;
         }
-        else if (isRecording)
+        else if (isRecording && !(DieRoutine.isDead || DieRoutine.isLocked))
         {
             isRecording = false;
             isRewinding = true;
@@ -106,57 +111,61 @@ public class TimeBackLiftable : MonoBehaviour
     
     void FixedUpdate()
     {
-        //The main function to record player's data and perform timeback
-        if (isRewinding)
+        if (!pause)
         {
-            if (!hasBeenMoved)
+            //The main function to record player's data and perform timeback
+            if (isRewinding)
             {
-                isRewinding = false;
-                TimeBackData.Clear();
-                TimeForwardData.Clear();
-            }
-            else
-            {
-                LoadStageData = LoadData();
-                if (LoadStageData != null)
+                if (!hasBeenMoved)
                 {
-                    ShowData(LoadStageData);
-                    Debug.Log("Rewinding " + TimeBackData.Count);
+                    isRewinding = false;
+                    TimeBackData.Clear();
+                    TimeForwardData.Clear();
                 }
                 else
                 {
-                    isRewinding = false;
-                    hasBeenMoved = false;
-                    //m_Rigidbody2D.simulated = true;
-                    //_pushable.enabled = false;
+                    LoadStageData = LoadData();
+                    if (LoadStageData != null)
+                    {
+                        ShowData(LoadStageData);
+                        Debug.Log("Rewinding " + TimeBackData.Count);
+                    }
+                    else
+                    {
+                        isRewinding = false;
+                        hasBeenMoved = false;
+                        //m_Rigidbody2D.simulated = true;
+                        //_pushable.enabled = false;
 
-                    isForwarding = true;
-                    Debug.Log("End of Rewinding");
+                        isForwarding = true;
+                        Debug.Log("End of Rewinding");
+                    }
                 }
             }
-        }
-        else if (isRecording)
-        {
-            SaveData();
-        }
-
-        if (goHome)
-        {
-            ShowData(TimeForwardData[0]);
-            TimeForwardData.Clear();
-            forwardCounter = 0;
-            //_pushable.enabled = true;
-            goHome = false;
-        }
-
-        if (isForwarding)
-        {
-            if (forwardCounter >= TimeForwardData.Count)
+            else if (isRecording)
             {
-                forwardCounter = 0;
+                SaveData();
             }
-            ShowData(TimeForwardData[forwardCounter]);
-            ++forwardCounter;
+
+            if (goHome)
+            {
+                ShowData(TimeForwardData[0]);
+                TimeForwardData.Clear();
+                forwardCounter = 0;
+                //_pushable.enabled = true;
+                goHome = false;
+            }
+
+            if (isForwarding)
+            {
+                if (forwardCounter >= TimeForwardData.Count)
+                {
+                    forwardCounter = 0;
+                }
+
+                ShowData(TimeForwardData[forwardCounter]);
+                ++forwardCounter;
+            }
         }
     }
     
@@ -224,5 +233,15 @@ public class TimeBackLiftable : MonoBehaviour
         hasBeenMoved = false;
         goHome = false;
         ShowData(_initStage);
+    }
+    
+    public static void PauseRewind()
+    {
+        pause = true;
+    }
+
+    public static void PlayRewind()
+    {
+        pause = false;
     }
 }

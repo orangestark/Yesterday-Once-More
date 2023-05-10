@@ -7,7 +7,8 @@ namespace Gamekit2D
     [RequireComponent(typeof(Collider2D))]
     public class TransitionPoint : MonoBehaviour
     {
-        private static bool teleported;
+        private static bool teleported = false;
+        private static bool entered = false;
         public enum TransitionType
         {
             DifferentZone, DifferentNonGameplayScene, SameScene,
@@ -16,7 +17,7 @@ namespace Gamekit2D
 
         public enum TransitionWhen
         {
-            ExternalCall, InteractPressed, OnTriggerEnter,
+            ExternalCall, InteractPressed, OnTriggerEnter, OneWay
         }
 
     
@@ -58,9 +59,11 @@ namespace Gamekit2D
                 if (ScreenFader.IsFading || SceneController.Transitioning)
                     return;
 
-                if ((transitionWhen == TransitionWhen.OnTriggerEnter) && !teleported)
+                if ((transitionWhen == TransitionWhen.OnTriggerEnter) && !teleported && !entered)
                 {
                     teleported = true;
+                    entered = true;
+                    Debug.Log("teleporter phase0");
                     TransitionInternal();
                 }
             }
@@ -71,7 +74,37 @@ namespace Gamekit2D
             if (other.gameObject == transitioningGameObject)
             {
                 m_TransitioningGameObjectPresent = false;
-                teleported = false;
+                if (entered)
+                {
+                    entered = false;
+                    Debug.Log("teleporter phase1");
+                }
+                else if (teleported && (transitionWhen != TransitionWhen.OnTriggerEnter))
+                {
+                    teleported = false;
+                    Debug.Log("teleporter phase2 one-way");
+                }
+                else if (teleported)
+                {
+                    if (other.gameObject.name == "Ellen")
+                    {
+                        Rigidbody2D temp = other.gameObject.GetComponent<Rigidbody2D>();
+                        if (temp.simulated)
+                        {
+                            teleported = false;
+                            Debug.Log("teleporter phase2");
+                        }
+                        else
+                        {
+                            m_TransitioningGameObjectPresent = true;
+                        }
+                    }
+                    else
+                    {
+                        teleported = false;
+                        Debug.Log("teleporter phase2");
+                    }
+                }
             }
         }
 
