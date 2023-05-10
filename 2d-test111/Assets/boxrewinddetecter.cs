@@ -35,19 +35,19 @@ public class boxrewinddetecter : MonoBehaviour
                 boxcount = boxScript.pushcount;
                 rewindcount = myScript.loopcount;
                 ActivateGameObjects();
-                textComponent.text = "Now push the box to the kiosks one by one\n \nIf your box is still looping\n \nPress SHIFT TWICE to refresh the loop";
+                textComponent.text = "Now push the box to the Kiosks one by one\n \nIf your box is still looping\n \nPress <font=\"Rajdhani-Bold SDF\">SHIFT</font> TWICE to refresh the loop";
                 phase5 = true;
             }
 
             if (firsttime)
             {
-                textComponent.text = "Now the position of the box will also be looping!\n \n Press ENTER to the next tutorial";
+                textComponent.text = "Now the position of the box will also be looping!\n \n Press <font=\"Rajdhani-Bold SDF\">ENTER</font> to the next tutorial";
                 firsttime = false;
             }
 
             if (phase5 && myScript.loopcount - rewindcount > 0 && boxScript.pushcount - boxcount == 0)
             {
-                textComponent.text = "Now push the box to the kiosks one by one";
+                textComponent.text = "Now push the box to the Kiosks one by one";
                 phase5 = false;
             }
         }

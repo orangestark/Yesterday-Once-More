@@ -9,6 +9,7 @@ public class playerrewinddetecter : MonoBehaviour
     [SerializeField] GameObject[] gameObjectsToActivate;
     [SerializeField] GameObject[] gameObjectsToDeactivate;
     public TMP_Text textComponent;
+    [SerializeField] private GameObject canvasRewind;
     
 
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class playerrewinddetecter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        canvasRewind.SetActive(true);
         //textComponent = GetComponent<TMP_Text>();
         TimeBacktutorial myScript = gameObject.GetComponent<TimeBacktutorial>();
         myScript.enabled = true;
@@ -33,7 +35,8 @@ public class playerrewinddetecter : MonoBehaviour
                 myScript.loopcount = 0;
             }
 
-            textComponent.text = "Now your action will be looping!\n \nPress SHIFT again and try more!\n \nor Press ENTER to the next tutorial";
+            //textComponent.text = "Now your action will be looping!\n \nPress <font=\"Rajdhani-Bold SDF\">SHIFT</font> again and try more!\n \nor Press <font=\"Rajdhani-Bold SDF\">ENTER</font> to the next tutorial";
+            textComponent.text = "Now your action will be looping!\n \nTRY MORE or Press <font=\"Rajdhani-Bold SDF\">ENTER</font> to the next tutorial";
         }
     }
     void ActivateGameObjects()

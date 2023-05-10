@@ -32,7 +32,7 @@ public class TimeBackObjecttutorial : MonoBehaviour
     private ObjectStage _initStage = new ObjectStage();
 
     private GameObject _player;
-    private TimeBack _timeBack;
+    private TimeBacktutorial _timeBacktutorial;
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +52,7 @@ public class TimeBackObjecttutorial : MonoBehaviour
         _initStage.Velocity = m_Rigidbody2D.velocity;
         
         _player = GameObject.Find("Ellen");
-        _timeBack = _player.GetComponent<TimeBack>();
+        _timeBacktutorial = _player.GetComponent<TimeBacktutorial>();
     }
 
     // Update is called once per frame
@@ -84,7 +84,7 @@ public class TimeBackObjecttutorial : MonoBehaviour
                     Debug.Log("End Recording; Start Rewinding");
                 }
             }
-            else
+            else if (!_timeBacktutorial.isRewinding)
             {
                 isRecording = true;
                 Debug.Log("Start Recording");
