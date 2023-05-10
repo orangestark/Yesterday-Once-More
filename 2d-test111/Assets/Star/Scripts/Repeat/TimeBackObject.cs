@@ -83,7 +83,7 @@ public class TimeBackObject : MonoBehaviour
                     Debug.Log("End Recording; Start Rewinding");
                 }
             }
-            else
+            else if (!_timeBack.isRewinding)
             {
                 isRecording = true;
                 Debug.Log("Start Recording");

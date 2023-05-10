@@ -25,6 +25,8 @@ public class TimeBackLiftable : MonoBehaviour
     private bool isFreezing = false;
     private bool goHome = false;
     private int forwardCounter = 0;
+    private GameObject _player;
+    private TimeBack _timeBack;
     
     private ObjectStage _initStage = new ObjectStage();
 
@@ -47,6 +49,8 @@ public class TimeBackLiftable : MonoBehaviour
         //_initStage.Sprite = spriteRenderer.sprite;
         //_initStage.IsRight = !(spriteRenderer.flipX);
         //_initStage.Velocity = m_Rigidbody2D.velocity;
+        _player = GameObject.Find("Ellen");
+        _timeBack = _player.GetComponent<TimeBack>();
     }
 
     // Update is called once per frame
@@ -78,7 +82,7 @@ public class TimeBackLiftable : MonoBehaviour
                     Debug.Log("End Recording; Start Rewinding");
                 }
             }
-            else
+            else if (!_timeBack.isRewinding)
             {
                 isRecording = true;
                 Debug.Log("Start Recording");
