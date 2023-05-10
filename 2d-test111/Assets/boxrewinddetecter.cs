@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class boxrewinddetecter : MonoBehaviour
 {
     [SerializeField] GameObject box;
+    [SerializeField] GameObject player;
     [SerializeField] GameObject[] gameObjectsToActivate;
     [SerializeField] GameObject[] gameObjectsToDeactivate;
+    public TMP_Text textComponent;
+    private bool firsttime = true;
+    private float rewindcount =0;
+    private float boxcount;
+    private bool phase5 = false;
+
 
     //private float boxpushcount = 0;
     // Start is called before the first frame update
@@ -19,10 +26,30 @@ public class boxrewinddetecter : MonoBehaviour
     void Update()
     {
         TimeBackObjecttutorial boxScript = box.GetComponent<TimeBackObjecttutorial>();
-        if (Input.GetKeyDown(KeyCode.Return) && boxScript.pushcount > 0)
+        TimeBacktutorial myScript = player.GetComponent<TimeBacktutorial>();
+        if ( boxScript.pushcount > 0)
         {
-            ActivateGameObjects();
-            //DeactivateGameObjects();
+            Debug.Log(rewindcount);
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                boxcount = boxScript.pushcount;
+                rewindcount = myScript.loopcount;
+                ActivateGameObjects();
+                textComponent.text = "Now push the box to the kiosks one by one\n \nIf your box is still looping\n \nPress SHIFT TWICE to refresh the loop";
+                phase5 = true;
+            }
+
+            if (firsttime)
+            {
+                textComponent.text = "Now the position of the box will also be looping!\n \n Press ENTER to the next tutorial";
+                firsttime = false;
+            }
+
+            if (phase5 && myScript.loopcount - rewindcount > 0 && boxScript.pushcount - boxcount == 0)
+            {
+                textComponent.text = "Now push the box to the kiosks one by one";
+                phase5 = false;
+            }
         }
     }
     void ActivateGameObjects()
