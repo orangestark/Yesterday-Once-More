@@ -60,7 +60,8 @@ public class TimeBackObjecttutorial : MonoBehaviour
     {
         //Check whether player has started or ended the timeback
         //CheckKeyDown = PlayerInput.Instance.Rewind1.Down || PlayerInput.Instance.Rewind2.Down;
-        CheckKeyDown = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
+        CheckKeyDown = ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && !Controller.usingController) ||
+                       ((Input.GetButtonDown("Left Bumper") || Input.GetButtonDown("Right Bumper")) && Controller.usingController);
         if (!(isRewinding) && CheckKeyDown && !(DieRoutine.isDead || DieRoutine.isLocked))
         {
             if (isFreezing)

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using TMPro;
 
-public class checkpoint : MonoBehaviour
+public class CheckpointTutorial : MonoBehaviour
 {
     public GameObject kiosk1;
     public GameObject kiosk2;

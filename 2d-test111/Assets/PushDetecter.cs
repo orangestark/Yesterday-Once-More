@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +9,12 @@ public class PushDetecter : MonoBehaviour
     public GameObject designatedObject;
     public GameObject[] gameObjectsToActivate;
     public GameObject[] gameObjectsToDeactivate;
+
+    public TMP_Text text;
+
+    public float wait = 3f;
+
+    private static bool _end = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +30,10 @@ public class PushDetecter : MonoBehaviour
     {
         if (other.gameObject == designatedObject)
         {
-            ActivateGameObjects();
-           DeactivateGameObjects();
+            //ActivateGameObjects();
+            //DeactivateGameObjects();
+            if (!_end)
+                StartCoroutine(EndPhase());
         }
     }
  
@@ -42,5 +51,14 @@ public class PushDetecter : MonoBehaviour
         {
             go.SetActive(false);
         }
+    }
+
+    IEnumerator EndPhase()
+    {
+        _end = true;
+        text.text = "Good job! Next let's try something cool...";
+        yield return new WaitForSeconds(wait);
+        ActivateGameObjects();
+        DeactivateGameObjects();
     }
 }

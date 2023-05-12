@@ -81,7 +81,7 @@ public class ShowStatusTutorial : MonoBehaviour
             }
             else if (isForwarding)
             {
-                text.text = string.Format("<color=\"black\">Shadow</color> <color=#FFFFB5>Activated</color>");
+                text.text = string.Format("<color=\"black\">Shadow</color> <color=\"white\">Activated</color>");
             }
         }
     }

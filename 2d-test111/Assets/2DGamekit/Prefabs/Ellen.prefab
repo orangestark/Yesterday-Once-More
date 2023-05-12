@@ -366,6 +366,14 @@ MonoBehaviour:
     positive: 119
     negative: 115
     controllerAxis: 2
+  Rewind1:
+    key: 304
+    controllerButton: 9
+    m_Enabled: 1
+  Rewind2:
+    key: 303
+    controllerButton: 10
+    m_Enabled: 1
   dataSettings:
     dataTag: PlayerInput
     persistenceType: 3

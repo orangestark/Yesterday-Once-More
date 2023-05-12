@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
@@ -61,9 +62,14 @@ namespace Gamekit2D
 
                 if ((transitionWhen == TransitionWhen.OnTriggerEnter) && !teleported && !entered)
                 {
-                    teleported = true;
-                    entered = true;
-                    Debug.Log("teleporter phase0");
+                    if (transitionType == TransitionType.SameScene)
+                    {
+                        teleported = true;
+                        entered = true;
+                        Debug.Log("teleporter phase0");
+                        AudioSource audioSource = destinationTransform.gameObject.GetComponent<AudioSource>();
+                        audioSource.Play();
+                    }
                     TransitionInternal();
                 }
             }

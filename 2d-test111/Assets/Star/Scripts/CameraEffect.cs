@@ -96,7 +96,7 @@ public class CameraEffect : MonoBehaviour
                 }
             }
         } 
-        else if (_isAvailable && Input.GetKeyDown(KeyCode.M) && !DieRoutine.isDead && !timeBack.isRewinding)
+        else if (_isAvailable && (Input.GetKeyDown(KeyCode.M) || Input.GetButtonDown("Y")) && !DieRoutine.isDead && !timeBack.isRewinding)
         {
             if (!_isWorking)
             {
@@ -122,7 +122,7 @@ public class CameraEffect : MonoBehaviour
                 StartCoroutine(LerpFromTo(_original, target.transform.position, duration, 1));
             }
         } 
-        else if (_isAvailable && Input.GetKeyUp(KeyCode.M) && !DieRoutine.isDead && !timeBack.isRewinding && _isWorking)
+        else if (_isAvailable && (Input.GetKeyUp(KeyCode.M) || Input.GetButtonUp("Y")) && !DieRoutine.isDead && !timeBack.isRewinding && _isWorking)
         {
             _goBack = true;
             if (_phase == 1)
@@ -228,6 +228,14 @@ public class CameraEffect : MonoBehaviour
 
     IEnumerator SpecialEffect()
     {
+        if (Controller.usingController)
+        {
+            text.text = "Hold <font=\"Rajdhani-Bold SDF\">Y</font> to view again";
+        }
+        else
+        {
+            text.text = "Hold <font=\"Rajdhani-Bold SDF\">M</font> to view again";
+        }
         canvas.SetActive(true); ;
         for(int i = 0; i < 2; i++)
         {
