@@ -18,7 +18,7 @@ namespace Gamekit2D
         public class HealEvent : UnityEvent<int, Damageable>
         { }
 
-        public int startingHealth = 5;
+        public int startingHealth = 1;
         public bool invulnerableAfterDamage = true;
         public float invulnerabilityDuration = 3f;
         public bool disableOnDeath = false;
