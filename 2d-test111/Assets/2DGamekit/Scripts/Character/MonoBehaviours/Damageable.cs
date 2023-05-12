@@ -59,6 +59,10 @@ namespace Gamekit2D
 
         void Update()
         {
+            // if (m_CurrentHealth > 1)
+            // {
+            //     m_CurrentHealth = 1;
+            // }
             if (m_Invulnerable)
             {
                 m_InulnerabilityTimer -= Time.deltaTime;
